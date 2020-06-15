@@ -1,3 +1,4 @@
 .vscode
 files/nginx.crt
 files/nginx.key
+docker-script.sh

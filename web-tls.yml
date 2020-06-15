@@ -14,15 +14,22 @@
         nginx -s reload
 
   tasks:
+    - name: Check whether Nginx service start or not
+      stat:
+        path: /var/run/nginx.pid
+      register: nginx_pid_file
+
     - name: Install Nginx
       apt:
         name: nginx
         update_cache: yes
         cache_valid_time: 3600
-    
+      when: not nginx_pid_file.stat.exists
+
     - name: Start Nginx
       shell: |
         nginx
+      when: not nginx_pid_file.stat.exists
     
     - name: Create directories for ssl certificates
       file:
